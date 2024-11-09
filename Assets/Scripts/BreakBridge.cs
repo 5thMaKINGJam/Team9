@@ -6,11 +6,11 @@ public class BreakBridge : MonoBehaviour
 {
     public GameObject Bridge;
     public GameObject BridgePrefab;
-    public Transform pos;
-     void OnEnable()
+    public Vector2 pos;
+    void OnEnable()
     {
         if(Bridge == null)
-            Bridge=Instantiate(BridgePrefab, pos);
+            Bridge=Instantiate(BridgePrefab, pos, Quaternion.identity);
     }
 
     private void OnTriggerEnter2D(Collider2D other){
@@ -18,6 +18,7 @@ public class BreakBridge : MonoBehaviour
         {
             GameManager.Instance.BreakPlease(Bridge);
             gameObject.SetActive(false);
+            Bridge = null;
         }
     }
 

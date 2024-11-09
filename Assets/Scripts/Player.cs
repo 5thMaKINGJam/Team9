@@ -70,13 +70,14 @@ public class Player : MonoBehaviour
     {
         if (movement == Vector2.zero)
         {
-            body.velocity = new Vector2(0, body.velocity.y); // 수평 이동만 멈추기
+            body.velocity = new Vector2(0, body.velocity.y); // Stop horizontal movement only
         }
         else
         {
             body.velocity = new Vector2(movement.x * moveSpeed, body.velocity.y);
         }
     }
+
 
     void Jump()
     {
@@ -86,7 +87,7 @@ public class Player : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground")|| collision.gameObject.CompareTag("Moveable"))
+        if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
             animator.SetBool("isGrounded", true);
@@ -95,10 +96,10 @@ public class Player : MonoBehaviour
 
     void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground")||collision.gameObject.CompareTag("Moveable"))
+        if (collision.gameObject.CompareTag("Ground"))
         {
-            isGrounded = true;
-            animator.SetBool("isGrounded", true);
+            isGrounded = false;
+            animator.SetBool("isGrounded", false);
         }
     }
 
@@ -120,15 +121,15 @@ public class Player : MonoBehaviour
                     if (Input.GetKey(KeyCode.A))
                     {
                         // 왼쪽(-1)으로 당기기
-                        animator.SetBool("isPulling", true);
-                        animator.SetBool("isPushing", false);
+                
+                        animator.SetBool("isPushing", true);
                         PullOrPushObject(-1);
                     }
                     else if (Input.GetKey(KeyCode.D))
                     {
                         // 오른쪽(+1)으로 밀기
                         animator.SetBool("isPushing", true);
-                        animator.SetBool("isPulling", false);
+                        
                         PullOrPushObject(1);
                     }
                     else
@@ -154,13 +155,11 @@ public class Player : MonoBehaviour
         {
             Vector2 force = new Vector2(direction * pushStrength, 0);
             currentObject.AddForce(force, ForceMode2D.Impulse);
-            if (direction == -1)
-            {
-                // 물체를 당길 때만 뒷걸음질
-                body.velocity = new Vector2(-1 * moveSpeed, body.velocity.y);  // 뒤로 이동
-            }
+
+            // The player's velocity won't be changed in this function, so there's no backward movement.
         }
     }
+
 
     // 디버깅용: 플레이어의 상호작용 범위 표시
     void OnDrawGizmosSelected()
