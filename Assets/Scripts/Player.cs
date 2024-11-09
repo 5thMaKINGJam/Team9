@@ -86,7 +86,7 @@ public class Player : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground")|| collision.gameObject.CompareTag("Moveable"))
+        if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
             animator.SetBool("isGrounded", true);
@@ -95,10 +95,10 @@ public class Player : MonoBehaviour
 
     void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground")||collision.gameObject.CompareTag("Moveable"))
+        if (collision.gameObject.CompareTag("Ground"))
         {
-            isGrounded = false;
-            animator.SetBool("isGrounded", false);
+            isGrounded = true;
+            animator.SetBool("isGrounded", true);
         }
     }
 
@@ -155,7 +155,8 @@ public class Player : MonoBehaviour
             Vector2 force = new Vector2(direction * pushStrength, 0);
             currentObject.AddForce(force, ForceMode2D.Impulse);
             if (direction == -1)
-            {
+            { 
+
                 // 물체를 당길 때만 뒷걸음질
                 body.velocity = new Vector2(-1 * moveSpeed, body.velocity.y);  // 뒤로 이동
             }
