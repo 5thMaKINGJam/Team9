@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     public float jumpForce = 10f;
     private Vector2 movement;
     private bool isGrounded;
+    
 
     void Start()
     {
@@ -26,14 +27,20 @@ public class Player : MonoBehaviour
         if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
             movement.x = 1;
+            animator.SetBool("isMoving", true);
         }
         else if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
             movement.x = -1;
+            animator.SetBool("isMoving", true);
         }
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             Jump();
+        }
+        else
+        {
+            animator.SetBool("isMoving", false); // 키를 떼면 애니메이션 멈추기
         }
 
     }
@@ -73,7 +80,5 @@ public class Player : MonoBehaviour
             isGrounded = false;
         }
     }
-
-
 }
 
