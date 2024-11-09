@@ -10,7 +10,6 @@ public class MoveDistantView : MonoBehaviour
     public float LimitXpre;
 
     GameObject target;
-    Vector3 TargetPos;
     Rigidbody2D me;
     void Start ()
     {
@@ -22,8 +21,7 @@ public class MoveDistantView : MonoBehaviour
     {
         if(!GameManager.Instance.isGameStarted  || target==null || GameManager.Instance.Stage!=myStage) 
             return;
-
-        if(target.transform.position.x < LimitXpre || target.transform.position.x > LimitX)
+        if(target.transform.position.x <= LimitXpre || target.transform.position.x >= LimitX)
             me.velocity = new Vector2(0f,0f);
         else me.velocity = new Vector2(target.GetComponent<Rigidbody2D>().velocity.x/1.7f, 0);
     }
