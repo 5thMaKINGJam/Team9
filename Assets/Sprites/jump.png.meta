@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c9067073363757b42944c2c0d08ae9f6
+guid: a62483fa5fa755f43861f478c9efe6ee
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -43,7 +43,7 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 0
+  spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
@@ -93,85 +93,127 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: walkPushPull_7
+      name: jump_0
       rect:
         serializedVersion: 2
-        x: 145
-        y: 51
-        width: 240
-        height: 290
+        x: 139
+        y: 44
+        width: 238
+        height: 263
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 340d76dd4253e5d44a980d841abbe966
-      internalID: 162824390
+      spriteID: 0a20a227d15f42d45a5d840f6099bb72
+      internalID: 388341770
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: walkPushPull_9
+      name: jump_2
       rect:
         serializedVersion: 2
-        x: 614
-        y: 47
-        width: 281
-        height: 290
+        x: 645
+        y: 49
+        width: 246
+        height: 338
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 10c4580c409393e408e526888d18e148
-      internalID: -1653688279
+      spriteID: d806816eade34df46bf6c2b28711814c
+      internalID: 984432789
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: walkPushPull_11
+      name: jump_3
       rect:
         serializedVersion: 2
-        x: 1130
-        y: 50
-        width: 279
-        height: 290
+        x: 1102
+        y: 94
+        width: 295
+        height: 302
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8a85052f33249774887f69b18d338ad7
-      internalID: -1554736301
+      spriteID: ae4ec1ca6b4c3dc49b19a34c9476fb97
+      internalID: -595145200
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: walkPushPull_12
+      name: jump_4
       rect:
         serializedVersion: 2
-        x: 1659
-        y: 47
-        width: 261
-        height: 290
+        x: 1620
+        y: 53
+        width: 288
+        height: 286
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dfeac5c8f83019648adbc2652552033d
-      internalID: 836517548
+      spriteID: b65d8b347ee8a6d419d202d723f9c206
+      internalID: -1815746537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump_5
+      rect:
+        serializedVersion: 2
+        x: 2125
+        y: 49
+        width: 309
+        height: 267
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 371a0768771f2334e98c92ff761f8131
+      internalID: 1090294337
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump_7
+      rect:
+        serializedVersion: 2
+        x: 2699
+        y: 49
+        width: 241
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 73ea9956e80903746a8f317312821dfd
+      internalID: -825602982
       vertices: []
       indices: 
       edges: []
@@ -187,20 +229,15 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      walkPushPull_0: 69675533
-      walkPushPull_1: -2063660052
-      walkPushPull_10: 2008827463
-      walkPushPull_11: -1554736301
-      walkPushPull_12: 836517548
-      walkPushPull_13: 68423281
-      walkPushPull_2: -110053367
-      walkPushPull_3: 1019629607
-      walkPushPull_4: -1069296409
-      walkPushPull_5: -956030988
-      walkPushPull_6: 1179193274
-      walkPushPull_7: 162824390
-      walkPushPull_8: -777983704
-      walkPushPull_9: -1653688279
+      jump_0: 388341770
+      jump_1: -595730231
+      jump_2: 984432789
+      jump_3: -595145200
+      jump_4: -1815746537
+      jump_5: 1090294337
+      jump_6: 595466537
+      jump_7: -825602982
+      jump_8: 564178261
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
