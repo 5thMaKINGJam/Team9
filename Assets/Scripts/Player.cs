@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -16,6 +14,7 @@ public class Player : MonoBehaviour
     public float interactionRadius = 3f; // 상호작용 거리 (3미터)
     private Rigidbody2D currentObject; // 현재 상호작용하는 물체
     private bool isColliding;
+
 
     void Start()
     {
@@ -47,7 +46,7 @@ public class Player : MonoBehaviour
         }
 
         // 점프 입력 처리
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded) 
         {
             Jump();
             animator.SetBool("isGrounded", false);
@@ -86,7 +85,15 @@ public class Player : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground")|| collision.gameObject.CompareTag("Moveable"))
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
+            animator.SetBool("isGrounded", true);
+        }
+    }
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
             animator.SetBool("isGrounded", true);
@@ -95,12 +102,13 @@ public class Player : MonoBehaviour
 
     void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground")||collision.gameObject.CompareTag("Moveable"))
+        if (collision.gameObject.CompareTag("Ground"))
         {
-            isGrounded = true;
-            animator.SetBool("isGrounded", true);
+            isGrounded = false;  // 땅을 떠났을 때 isGrounded를 false로 설정
+            animator.SetBool("isGrounded", false);  // 애니메이터 상태 업데이트
         }
     }
+
 
     // 3미터 이내에 물체가 있으면 상호작용하도록 하는 메서드
     void DetectAndInteractWithObject()
@@ -169,6 +177,7 @@ public class Player : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, interactionRadius);
     }
 }
+
 
 
 
