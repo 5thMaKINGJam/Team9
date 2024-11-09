@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     public Animator animator;
     public Rigidbody2D body;
+    public SpriteRenderer spriteRenderer;
     public float moveSpeed = 5f;
     public float jumpForce = 10f;
     private Vector2 movement;
@@ -17,6 +18,7 @@ public class Player : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         body = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -28,20 +30,19 @@ public class Player : MonoBehaviour
         {
             movement.x = 1;
             animator.SetBool("isMoving", true);
+            spriteRenderer.flipX = false;
         }
         else if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
             movement.x = -1;
             animator.SetBool("isMoving", true);
+            spriteRenderer.flipX = true;
         }
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             Jump();
         }
-        else
-        {
-            animator.SetBool("isMoving", false); // 키를 떼면 애니메이션 멈추기
-        }
+        animator.SetBool("isMoving", movement.x != 0);
 
     }
 

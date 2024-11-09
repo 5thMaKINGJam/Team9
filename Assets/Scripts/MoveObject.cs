@@ -1,43 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class MoveObject : MonoBehaviour
 {
-    public float pushStrength = 5f;         // 밀 때의 힘
-    public float interactDistance = 2f;     // 플레이어와 물체 간 상호작용 거리
-    public GameObject objectToPush;         // 밀고자 하는 물체
+    public float moveSpeed = 5f;             
+    private GameObject objectToMove;
+    public float pushStrength = 5f; // 물체 밀기 힘
+    private Vector2 move;
 
-    private bool isPushing = false; 
     void Update()
-    {
-        // 플레이어와 물체의 거리가 상호작용 거리 내에 있는지 확인
-        if (objectToPush != null && Vector3.Distance(transform.position, objectToPush.transform.position) <= interactDistance)
+    { 
+    if (Input.GetKey(KeyCode.LeftShift))
         {
-            // Shift 키를 눌렀을 때만 밀기 시작
-            if (Input.GetKeyDown(KeyCode.LeftShift))
-            {
-                isPushing = true; // 밀기 활성화
-            }
-            else if (Input.GetKeyUp(KeyCode.LeftShift))
-            {
-                isPushing = false; // 밀기 비활성화
-            }
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, move, 1f);
 
-            // 밀기 활성화 상태일 때만 물체를 밀도록 설정
-            if (isPushing)
+            if (hit.collider != null && hit.collider.CompareTag("Moveable"))
             {
-                Vector3 direction = (objectToPush.transform.position - transform.position).normalized;
-
-                // 물체의 y 값은 고정하고 x와 z 값만 이동
-                objectToPush.transform.position += new Vector3(direction.x, 0, direction.z) * pushStrength * Time.deltaTime;
+                Moveable moveableObject = hit.collider.GetComponent<Moveable>();
+                if (moveableObject != null)
+                {
+                    // 물체를 밀거나 끌 수 있도록 물체를 이동
+                    Vector3 targetPos = new Vector3(hit.collider.transform.position.x, transform.position.y, transform.position.z);
+    hit.collider.transform.position = Vector3.Lerp(hit.collider.transform.position, targetPos, Time.deltaTime* moveableObject.moveSpeed);
+                }
             }
         }
         else
-        {
-            isPushing = false; // 거리가 멀어지면 밀기 비활성화
-        }
+{
+    // Shift 키를 떼면 플레이어가 자유롭게 이동
+    transform.Translate(move * moveSpeed * Time.deltaTime);
+}
     }
 }
+
 
 
