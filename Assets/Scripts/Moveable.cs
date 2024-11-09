@@ -6,7 +6,7 @@ public class Moveable : MonoBehaviour
 {
     public float moveSpeed;
     Vector3 TargetPos;
-    private void OnCollisionEnter2D(Collider2D other) {
+    private void OnCollisionEnter2D(Collision2D other) {
         if(Input.GetKey(KeyCode.LeftShift)){
             TargetPos = new Vector3 (other.transform.position.x, 
                                  transform.position.y, 
