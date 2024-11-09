@@ -7,7 +7,8 @@ public class Obstacle : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other) {
         if(other.gameObject.tag == "Player")
         {
-            Destroy(other.gameObject.GetComponent<Rigidbody2D>());
+            Destroy(other.gameObject.GetComponent<Player>());
+            Destroy(other.gameObject.transform.GetChild(0).GetComponent<Animator>());
             
             GameManager.Instance.PlayerDie();
         }
