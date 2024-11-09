@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class CamreaMove : MonoBehaviour
 {
@@ -9,9 +10,11 @@ public class CamreaMove : MonoBehaviour
     public float CamreaMoveSpeed = 5.0f;
     public float offsetY;
     Vector3 TargetPos;
+
+    void Start (){GameManager.Instance.OnPlayerRestarted+=(object sender, EventArgs e)=>{target=GameManager.Instance.Player;};}
     void FixedUpdate() {
 
-        if(!GameManager.Instance.isGameStarted) return;
+        if(!GameManager.Instance.isGameStarted  || target==null) return;
 
         float targetX;
         float targetY;
@@ -19,7 +22,7 @@ public class CamreaMove : MonoBehaviour
         if(GameManager.Instance.cameraLimitY < target.transform.position.y + offsetY) targetY = GameManager.Instance.cameraLimitY;
         else targetY = target.transform.position.y + offsetY;
         if(GameManager.Instance.cameraLimitX < target.transform.position.x) targetX = GameManager.Instance.cameraLimitX;
-        else if(0 > target.transform.position.x) targetX = 0f;
+        else if(GameManager.Instance.cameraLimitpreX > target.transform.position.x) targetX = GameManager.Instance.cameraLimitpreX;
         else targetX = target.transform.position.x;
 
         TargetPos = new Vector3 (targetX, 
