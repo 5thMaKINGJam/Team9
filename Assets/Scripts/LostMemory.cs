@@ -29,7 +29,7 @@ public class LostMemory : MonoBehaviour
             Destroy(other.gameObject.transform.GetChild(0).GetComponent<Animator>());
             
             GameManager.Instance.PlayerDie();
-            Destroy(MapLimit);
+            if(MapLimit != null) Destroy(MapLimit);
             Destroy(this);
         }
     }

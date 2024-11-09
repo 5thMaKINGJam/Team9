@@ -31,7 +31,7 @@ public class CamreaMove : MonoBehaviour
 
         TargetPos = new Vector3 (targetX, 
                                  targetY, 
-                                 -10f);
+                                 transform.position.z);
         transform.position = Vector3.Lerp (transform.position, TargetPos, Time.deltaTime * CamreaMoveSpeed);
     }
 }
