@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
 
     public float cameraLimitY = 10.3f;  // 카메라 y값 상한
     public float cameraLimitpreY = 0f;  // 카메라 y값 하한
-    public float cameraLimitX = 132f;  // 카메라 x값 상한
+    public float cameraLimitX = 0f;  // 카메라 x값 상한
     public float cameraLimitpreX = 0f;  // 카메라 x값 하한
     public GameObject[] memoryObjects;  // 기억 오브젝트 (UI)
     private int memoryFinded = 0;  // 찾은 기억 개수
@@ -29,16 +29,15 @@ public class GameManager : MonoBehaviour
     public GameObject[] DistantViews;
 
     public Image FadeImg;  // 페이드인아웃 이미지
+    public Image[] MemoryImg;  // 기억 돌아오는 이미지
 
     public event EventHandler OnPlayerRestarted;
 
     public void PlayerDie()  // 장애물 충돌 시
     {
-        // 페이드인
-        FadeImg.gameObject.SetActive(true);
-        FadeImg.canvasRenderer.SetAlpha(0.0f);
-        FadeImg.CrossFadeAlpha(1.0f, 0.6f, false);
-
+        Player.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+        FadeIn(FadeImg);
+        
         Invoke("reStart", 1.5f);
         foreach(GameObject trigger in ObstacleTriggers)
         {
@@ -59,17 +58,42 @@ public class GameManager : MonoBehaviour
     public void memoryFind(){  // 기억 찾을 시
         memoryFinded++;
         if(memoryFinded == 1) {
-            cameraLimitX = 1010;  // Todo
+            FadeIn(FadeImg);
+            StartCoroutine(nextFadeIn(MemoryImg[memoryFinded-1]));
+            StartCoroutine(FadeOut(MemoryImg[memoryFinded-1], 132f));
+
             memoryObjects[0].SetActive(true);
         }
         else if(memoryFinded == 2) {
-            cameraLimitX = 1010;  // Todo
+            FadeIn(FadeImg);
+            StartCoroutine(nextFadeIn(MemoryImg[memoryFinded-1]));
+            StartCoroutine(FadeOut(MemoryImg[memoryFinded-1], 1010f));  //todo
+
             memoryObjects[1].SetActive(true);
         }
         else if(memoryFinded == 3) {
+            FadeIn(FadeImg);
+            StartCoroutine(nextFadeIn(MemoryImg[memoryFinded-1]));
+            StartCoroutine(FadeOut(MemoryImg[memoryFinded-1], 1010f));  //todo
+
             memoryObjects[2].SetActive(true);
         }
     }
 
-    
+    public void FadeIn(Image img){  // 페이드 인
+        img.gameObject.SetActive(true);
+        img.canvasRenderer.SetAlpha(0.0f);
+        img.CrossFadeAlpha(1.0f, 0.6f, false);
+    }
+    IEnumerator nextFadeIn(Image img){
+        yield return new WaitForSeconds(0.6f);
+        FadeIn(img);
+    }
+    IEnumerator FadeOut(Image img, float cameraLimit){
+        yield return new WaitForSeconds(5f);
+        FadeImg.CrossFadeAlpha(0f, 0.6f, false);
+        img.CrossFadeAlpha(0f, 0.6f, false);
+        img.gameObject.SetActive(false);
+        cameraLimitX = cameraLimit;
+    }
 }
