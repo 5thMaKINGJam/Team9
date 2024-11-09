@@ -97,8 +97,8 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground")||collision.gameObject.CompareTag("Moveable"))
         {
-            isGrounded = false;
-            animator.SetBool("isGrounded", false);
+            isGrounded = true;
+            animator.SetBool("isGrounded", true);
         }
     }
 

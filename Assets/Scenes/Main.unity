@@ -458,12 +458,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 971126499}
     - target: {fileID: 2402098539458314228, guid: d5089434af3fac2449c1fa2f768ae3ae, type: 3}
+      propertyPath: jumpForce
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2402098539458314228, guid: d5089434af3fac2449c1fa2f768ae3ae, type: 3}
       propertyPath: interactionRange
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2402098539458314228, guid: d5089434af3fac2449c1fa2f768ae3ae, type: 3}
       propertyPath: interactionRadius
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4996678482732471814, guid: d5089434af3fac2449c1fa2f768ae3ae, type: 3}
       propertyPath: m_Name
@@ -573,6 +577,14 @@ PrefabInstance:
     - target: {fileID: 6642597886772980082, guid: 3b2e143e736e9a94580da42fa3a1261a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6642597886772980085, guid: 3b2e143e736e9a94580da42fa3a1261a, type: 3}
+      propertyPath: m_LinearDrag
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6642597886772980085, guid: 3b2e143e736e9a94580da42fa3a1261a, type: 3}
+      propertyPath: m_GravityScale
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6642597886772980086, guid: 3b2e143e736e9a94580da42fa3a1261a, type: 3}
       propertyPath: m_Name
