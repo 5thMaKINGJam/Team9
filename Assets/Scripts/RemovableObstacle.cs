@@ -14,7 +14,7 @@ public class RemovableObstacle : MonoBehaviour
         if(other.gameObject.tag == "Player")
         {
             Destroy(gameObject.GetComponent<Rigidbody2D>());
-            Destroy(gameObject, 2f);
+            Destroy(gameObject, 1.5f);
         }
     }
 }

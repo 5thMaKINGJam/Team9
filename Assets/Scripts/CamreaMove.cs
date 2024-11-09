@@ -20,7 +20,8 @@ public class CamreaMove : MonoBehaviour
         float targetY;
 
         if(GameManager.Instance.cameraLimitY < target.transform.position.y + offsetY) targetY = GameManager.Instance.cameraLimitY;
-        else targetY = target.transform.position.y + offsetY;
+        else if(GameManager.Instance.cameraLimitpreY > target.transform.position.y) targetY = GameManager.Instance.cameraLimitpreY;
+        else targetY = target.transform.position.y;
         if(GameManager.Instance.cameraLimitX < target.transform.position.x) targetX = GameManager.Instance.cameraLimitX;
         else if(GameManager.Instance.cameraLimitpreX > target.transform.position.x) targetX = GameManager.Instance.cameraLimitpreX;
         else targetX = target.transform.position.x;
