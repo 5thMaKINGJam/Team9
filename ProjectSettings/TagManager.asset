@@ -4,12 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
-<<<<<<< Updated upstream
   - Obstacle
-=======
   - Ground
   - Movable
->>>>>>> Stashed changes
   layers:
   - Default
   - TransparentFX
