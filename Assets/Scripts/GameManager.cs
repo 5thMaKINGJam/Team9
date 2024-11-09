@@ -96,4 +96,18 @@ public class GameManager : MonoBehaviour
         img.gameObject.SetActive(false);
         cameraLimitX = cameraLimit;
     }
+
+    public void BreakPlease(GameObject Bridge){
+        StartCoroutine(LetsBreak(Bridge));
+    }
+
+    IEnumerator LetsBreak(GameObject Bridge){
+        print(Bridge.transform.childCount);
+        for(int i = 2; i < Bridge.transform.childCount; i++){
+            print(i);
+            yield return new WaitForSeconds(0.5f);
+            print(i);
+            Bridge.transform.GetChild(i).GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+        }
+    }
 }
