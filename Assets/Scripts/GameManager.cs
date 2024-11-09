@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
 
     public float cameraLimitY = 10.3f;  // 카메라 y값 상한
     public float cameraLimitpreY = 0f;  // 카메라 y값 하한
-    public float cameraLimitX = 0f;  // 카메라 x값 상한
+    public float cameraLimitX = 1200f;  // 카메라 x값 상한
     public float cameraLimitpreX = 0f;  // 카메라 x값 하한
     public GameObject[] memoryObjects;  // 기억 오브젝트 (UI)
     private int memoryFinded = 0;  // 찾은 기억 개수
@@ -67,14 +67,14 @@ public class GameManager : MonoBehaviour
         else if(memoryFinded == 2) {
             FadeIn(FadeImg);
             StartCoroutine(nextFadeIn(MemoryImg[memoryFinded-1]));
-            StartCoroutine(FadeOut(MemoryImg[memoryFinded-1], 1010f));  //todo
+            StartCoroutine(FadeOut(MemoryImg[memoryFinded-1], 285.7f));  //todo
 
             memoryObjects[1].SetActive(true);
         }
         else if(memoryFinded == 3) {
             FadeIn(FadeImg);
             StartCoroutine(nextFadeIn(MemoryImg[memoryFinded-1]));
-            StartCoroutine(FadeOut(MemoryImg[memoryFinded-1], 1010f));  //todo
+            StartCoroutine(FadeOut(MemoryImg[memoryFinded-1], 285.7f));  //todo
 
             memoryObjects[2].SetActive(true);
         }
@@ -95,5 +95,18 @@ public class GameManager : MonoBehaviour
         img.CrossFadeAlpha(0f, 0.6f, false);
         img.gameObject.SetActive(false);
         cameraLimitX = cameraLimit;
+    }
+
+    public void BreakPlease(GameObject Bridge){
+        StartCoroutine(LetsBreak(Bridge));
+    }
+
+    IEnumerator LetsBreak(GameObject Bridge){
+        for(int i = Bridge.transform.childCount-3; i > -1 ; i--){
+            yield return new WaitForSeconds(0.5f);
+            if(Bridge == null) break;
+            Bridge.transform.GetChild(i).GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+            Destroy(Bridge.transform.GetChild(i).gameObject, 1f);
+        }
     }
 }

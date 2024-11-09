@@ -11,6 +11,7 @@ public class Obstacle : MonoBehaviour
             Destroy(other.gameObject.transform.GetChild(0).GetComponent<Animator>());
             
             GameManager.Instance.PlayerDie();
+            if(gameObject.name == "Bridge") Destroy(gameObject);
         }
     }
 }
