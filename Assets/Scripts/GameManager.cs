@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
     public void PlayerDie()  // 장애물 충돌 시
     {
         // 페이드인
-        FadeImg.gameObject.SetActive(false);
+        FadeImg.gameObject.SetActive(true);
         FadeImg.canvasRenderer.SetAlpha(0.0f);
         FadeImg.CrossFadeAlpha(1.0f, 0.6f, false);
 

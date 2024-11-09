@@ -11,7 +11,10 @@ public class CamreaMove : MonoBehaviour
     public float offsetY;
     Vector3 TargetPos;
 
-    void Start (){GameManager.Instance.OnPlayerRestarted+=(object sender, EventArgs e)=>{target=GameManager.Instance.Player;};}
+    void Start (){
+        target = GameManager.Instance.Player;
+        GameManager.Instance.OnPlayerRestarted+=(object sender, EventArgs e)=>{target=GameManager.Instance.Player;};
+    }
     void FixedUpdate() {
 
         if(!GameManager.Instance.isGameStarted  || target==null) return;
