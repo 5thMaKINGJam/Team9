@@ -22,6 +22,7 @@ public class BreakBridge : MonoBehaviour
     IEnumerator LetsBreak(){
         print(Bridge.transform.childCount);
         for(int i = 2; i < Bridge.transform.childCount; i++){
+            print(i);
             yield return new WaitForSeconds(0.5f);
             print(i);
             Bridge.transform.GetChild(i).GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;

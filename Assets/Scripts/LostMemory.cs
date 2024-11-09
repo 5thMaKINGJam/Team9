@@ -30,6 +30,7 @@ public class LostMemory : MonoBehaviour
             
             GameManager.Instance.PlayerDie();
             Destroy(MapLimit);
+            Destroy(this);
         }
     }
 }
