@@ -13,7 +13,10 @@ GameObject:
   - component: {fileID: 1109585148229744169}
   - component: {fileID: 1109585148229744170}
   - component: {fileID: 1109585148229744171}
+<<<<<<< Updated upstream
   - component: {fileID: 1109585148229744212}
+=======
+>>>>>>> Stashed changes
   m_Layer: 0
   m_Name: MovableObject
   m_TagString: Movable
@@ -157,6 +160,7 @@ CompositeCollider2D:
     m_Paths: []
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
+<<<<<<< Updated upstream
 --- !u!114 &1109585148229744212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,3 +176,5 @@ MonoBehaviour:
   player: {fileID: 0}
   moveSpeed: 5
   detectionRange: 3
+=======
+>>>>>>> Stashed changes
