@@ -11,9 +11,10 @@ public class Player : MonoBehaviour
     public float jumpForce = 10f; // 점프 힘
     private Vector2 movement; // 이동 벡터
     private bool isGrounded; // 땅에 닿았는지 여부
-    public LayerMask objectLayer;
+    public LayerMask objectLayer; // 상호작용 가능한 물체 레이어
     public float pushStrength = 5f; // 물체 밀기 힘
-    private Rigidbody2D currentObject;
+    public float interactionRadius = 3f; // 상호작용 거리 (3미터)
+    private Rigidbody2D currentObject; // 현재 상호작용하는 물체
     private bool isColliding;
 
     void Start()
@@ -53,26 +54,9 @@ public class Player : MonoBehaviour
         }
 
         // 물체 밀기/당기기
-        if (isColliding && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)))
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
         {
-            if (Input.GetKey(KeyCode.A))
-            {
-                PushOrPullObject(-1); // 왼쪽(-1)으로 당기기
-                animator.SetBool("isPulling", true);
-                animator.SetBool("isPushing", false);
-            }
-            else if (Input.GetKey(KeyCode.D))
-            {
-                PushOrPullObject(1); // 오른쪽(+1)으로 밀기
-                animator.SetBool("isPushing", true);
-                animator.SetBool("isPulling", false);
-            }
-            else
-            {
-                // 아무 키도 누르지 않을 때 애니메이션 초기화
-                animator.SetBool("isPushing", false);
-                animator.SetBool("isPulling", false);
-            }
+            DetectAndInteractWithObject();
         }
         else
         {
@@ -102,41 +86,92 @@ public class Player : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground")|| collision.gameObject.CompareTag("Moveable"))
         {
             isGrounded = true;
             animator.SetBool("isGrounded", true);
-        }
-        if (((1 << collision.gameObject.layer) & objectLayer) != 0) // objectLayer에 포함된 레이어인지 확인
-        {
-            isColliding = true;
-            currentObject = collision.rigidbody;
         }
     }
 
     void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground")||collision.gameObject.CompareTag("Moveable"))
         {
             isGrounded = false;
             animator.SetBool("isGrounded", false);
         }
-        if (((1 << collision.gameObject.layer) & objectLayer) != 0)
+    }
+
+    // 3미터 이내에 물체가 있으면 상호작용하도록 하는 메서드
+    void DetectAndInteractWithObject()
+    {
+        Collider2D[] hitObjects = Physics2D.OverlapCircleAll(transform.position, interactionRadius, objectLayer);
+
+        if (hitObjects.Length > 0)
         {
-            isColliding = false;
-            currentObject = null;
+            foreach (var hit in hitObjects)
+            {
+                Rigidbody2D hitRigidbody = hit.GetComponent<Rigidbody2D>();
+
+                if (hitRigidbody != null)
+                {
+                    currentObject = hitRigidbody;
+
+                    if (Input.GetKey(KeyCode.A))
+                    {
+                        // 왼쪽(-1)으로 당기기
+                        animator.SetBool("isPulling", true);
+                        animator.SetBool("isPushing", false);
+                        PullOrPushObject(-1);
+                    }
+                    else if (Input.GetKey(KeyCode.D))
+                    {
+                        // 오른쪽(+1)으로 밀기
+                        animator.SetBool("isPushing", true);
+                        animator.SetBool("isPulling", false);
+                        PullOrPushObject(1);
+                    }
+                    else
+                    {
+                        animator.SetBool("isPushing", false);
+                        animator.SetBool("isPulling", false);
+                    }
+                }
+            }
+        }
+        else
+        {
+            // 상호작용할 물체가 없을 때 애니메이션 초기화
+            animator.SetBool("isPushing", false);
+            animator.SetBool("isPulling", false);
         }
     }
 
-    void PushOrPullObject(int direction)
+    // 물체를 밀거나 당기는 함수
+    void PullOrPushObject(int direction)
     {
         if (currentObject != null)
         {
             Vector2 force = new Vector2(direction * pushStrength, 0);
             currentObject.AddForce(force, ForceMode2D.Impulse);
+            if (direction == -1)
+            {
+                // 물체를 당길 때만 뒷걸음질
+                body.velocity = new Vector2(-1 * moveSpeed, body.velocity.y);  // 뒤로 이동
+            }
         }
     }
+
+    // 디버깅용: 플레이어의 상호작용 범위 표시
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, interactionRadius);
+    }
 }
+
+
+
 
 
 
