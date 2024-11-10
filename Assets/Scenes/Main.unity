@@ -328,6 +328,8 @@ MonoBehaviour:
   FadeImg: {fileID: 0}
   MemoryImg: []
   Logo: {fileID: 0}
+  WakeUp: {fileID: 0}
+  endings: []
 --- !u!4 &2009489069
 Transform:
   m_ObjectHideFlags: 0
