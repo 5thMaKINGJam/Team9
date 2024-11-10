@@ -16,47 +16,59 @@ public class PlayerSoundEffects : MonoBehaviour
 
     void Start()
     {
-        // ¹ßÀÚ±¹ ¼Ò¸® ·çÇÁ ¼³Á¤
+        // ï¿½ï¿½ï¿½Ú±ï¿½ ï¿½Ò¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         audioSource.clip = footsteps;
         audioSource.loop = true;
     }
 
     void Update()
     {
-        // ÀÌµ¿ ÁßÀÎÁö °¨Áö (¼öÆò ¹× ¼öÁ÷ ÀÔ·Â ¸ðµÎ Ã¼Å©)
-        if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+        //// ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ ï¿½ï¿½ï¿½ Ã¼Å©)
+        //if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+        //{
+        //    isWalking = true;
+        //}
+        //else
+        //{
+        //    isWalking = false;
+        //}
+
+        // ï¿½È´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß¼Ò¸ï¿½ ï¿½ï¿½ï¿½
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Walk"))
         {
-            isWalking = true;
+            if (!GetComponent<AudioSource>().isPlaying)
+                GetComponent<AudioSource>().Play();
         }
         else
         {
-            isWalking = false;
+            GetComponent<AudioSource>().Stop();
         }
 
-        // °È´Â »óÅÂÀÌ°í ¹Ù´Ú¿¡ ÀÖÀ» ¶§¸¸ ¹ßÀÚ±¹ ¼Ò¸® Àç»ý
+        // ï¿½È´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½Ù´Ú¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú±ï¿½ ï¿½Ò¸ï¿½ ï¿½ï¿½ï¿½
         if (isWalking && isGrounded && !isJumping)
         {
             if (!audioSource.isPlaying)
             {
-                audioSource.Play(); // °È±â ¼Ò¸® Àç»ý ½ÃÀÛ
+                audioSource.Play(); // ï¿½È±ï¿½ ï¿½Ò¸ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             }
         }
         else
         {
             if (audioSource.isPlaying)
             {
-                audioSource.Stop(); // °È±â ¼Ò¸® ¸ØÃã
+                audioSource.Stop(); // ï¿½È±ï¿½ ï¿½Ò¸ï¿½ ï¿½ï¿½ï¿½ï¿½
             }
         }
 
-        // Á¡ÇÁ ÀÔ·Â °¨Áö ¹× Á¡ÇÁ ¼Ò¸® Àç»ý
+
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ò¸ï¿½ ï¿½ï¿½ï¿½
         if (Input.GetButtonDown("Jump") && isGrounded && !isJumping)
         {
-            StartCoroutine(PlayJumpSound()); // Á¡ÇÁ ¼Ò¸® ÄÚ·çÆ¾ È£Ãâ
+            StartCoroutine(PlayJumpSound()); // ï¿½ï¿½ï¿½ï¿½ ï¿½Ò¸ï¿½ ï¿½Ú·ï¿½Æ¾ È£ï¿½ï¿½
         }
     }
 
-    // ¹Ù´Ú¿¡ ´ê¾Ò´ÂÁö È®ÀÎ
+    // ï¿½Ù´Ú¿ï¿½ ï¿½ï¿½Ò´ï¿½ï¿½ï¿½ È®ï¿½ï¿½
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
@@ -76,12 +88,12 @@ public class PlayerSoundEffects : MonoBehaviour
     private IEnumerator PlayJumpSound()
     {
         isJumping = true;
-        audioSource.Stop(); // ±âÁ¸ ¼Ò¸® ¸ØÃß±â
+        audioSource.Stop(); // ï¿½ï¿½ï¿½ï¿½ ï¿½Ò¸ï¿½ ï¿½ï¿½ï¿½ß±ï¿½
         audioSource.clip = jump;
-        audioSource.Play(); // Á¡ÇÁ ¼Ò¸® Àç»ý
-        yield return new WaitForSeconds(jump.length); // Á¡ÇÁ ¼Ò¸®°¡ ³¡³¯ ¶§±îÁö ´ë±â
+        audioSource.Play(); // ï¿½ï¿½ï¿½ï¿½ ï¿½Ò¸ï¿½ ï¿½ï¿½ï¿½
+        yield return new WaitForSeconds(jump.length); // ï¿½ï¿½ï¿½ï¿½ ï¿½Ò¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
         isJumping = false;
-        audioSource.clip = footsteps; // ¹ßÀÚ±¹ ¼Ò¸® Å¬¸³À¸·Î º¹¿ø
+        audioSource.clip = footsteps; // ï¿½ï¿½ï¿½Ú±ï¿½ ï¿½Ò¸ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
 }
 
