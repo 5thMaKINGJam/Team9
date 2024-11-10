@@ -967,8 +967,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8234b27b9503b0f428e34788606ea1cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  changeJumpAudio: {fileID: 0}
-  changeMoveAudio: {fileID: 0}
+  audioSource: {fileID: 954302558}
+  footsteps: {fileID: 8300000, guid: 8bcf4bca00f249945b3d7704b62922ab, type: 3}
+  jump: {fileID: 8300000, guid: 721e3ee407e86fa4b9298a8ddcb2e4d6, type: 3}
+  stepDelay: 0.5
+  groundCheckDistance: 0.3
 --- !u!95 &971126499 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 4996678481646391287, guid: d5089434af3fac2449c1fa2f768ae3ae, type: 3}
@@ -1018,6 +1021,7 @@ MonoBehaviour:
   DistantViews: []
   FadeImg: {fileID: 0}
   MemoryImg: []
+  Logo: {fileID: 0}
 --- !u!4 &2009489069
 Transform:
   m_ObjectHideFlags: 0

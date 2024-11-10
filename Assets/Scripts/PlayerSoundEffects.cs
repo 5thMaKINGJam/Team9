@@ -4,21 +4,59 @@ using UnityEngine;
 
 public class PlayerSoundEffects : MonoBehaviour
 {
+    public AudioSource audioSource;
+    public AudioClip footsteps;
+    public AudioClip jump;
+    public float stepDelay = 0.5f;
+    public float groundCheckDistance = 0.2f;
 
-    public AudioClip changeJumpAudio;
-    public AudioClip changeMoveAudio;
-    private void OnTriggerEnter2D(Collider2D other)
+    private bool isWalking = false;
+    private bool isJumping = false;
+    private float stepTimer = 0f;
+
+    // Update is called once per frame
+    void Update()
     {
-        if (other.gameObject.tag == "Player")
+        // 이동 중인지 감지 (수평 및 수직 입력 모두 체크)
+        if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
         {
-            AudioClip temp = changeMoveAudio;
-            changeMoveAudio = other.GetComponent<AudioSource>().clip;
-            other.GetComponent<AudioSource>().clip = temp;
-
-            temp = changeJumpAudio;
-            changeJumpAudio = other.transform.GetChild(0).GetComponent<AudioSource>().clip;
-            other.transform.GetChild(0).GetComponent<AudioSource>().clip = temp;
+            isWalking = true;
         }
+        else
+        {
+            isWalking = false;
+        }
+
+        // 걷는 상태일 때 일정 간격으로 발소리 재생
+        if (isWalking && isGrounded())
+        {
+            stepTimer += Time.deltaTime;
+            if (stepTimer >= stepDelay)
+            {
+                audioSource.PlayOneShot(footsteps);
+                stepTimer = 0f;
+            }
+        }
+        
+
+        // 점프 입력 감지 및 점프 소리 재생
+        if (Input.GetButtonDown("Jump") && !isJumping) // 점프 키를 누른 순간 감지
+        {
+            isJumping = true;
+            audioSource.PlayOneShot(jump); // 점프 소리 재생
+        }
+
+        // 착지 감지 (점프 후 다시 발이 닿았을 때)
+        if (isJumping && isGrounded())
+        {
+            isJumping = false;
+        }
+    }
+
+    bool isGrounded()
+    {
+        // 바닥과의 거리 설정하여 바닥에 닿았는지 체크
+        return Physics.Raycast(transform.position, Vector3.down, groundCheckDistance);
     }
 }
 

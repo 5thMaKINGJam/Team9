@@ -8,7 +8,7 @@ public class SetCheckPoint : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other){
         if(other.gameObject.tag == "Player")
         {
-            GameManager.Instance.distantViewCheckPoint = GameManager.Instance.DistantViews[GameManager.Instance.Stage-1].transform.position;
+            if(GameManager.Instance.Stage!=0) GameManager.Instance.distantViewCheckPoint = GameManager.Instance.DistantViews[GameManager.Instance.Stage-1].transform.position;
             GameManager.Instance.checkPoint = new Vector2(gameObject.transform.position.x, groundPosY);
             Destroy(gameObject);
         }
