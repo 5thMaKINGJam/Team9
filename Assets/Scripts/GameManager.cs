@@ -31,7 +31,12 @@ public class GameManager : MonoBehaviour
     public Image FadeImg;  // 페이드인아웃 이미지
     public Image[] MemoryImg;  // 기억 돌아오는 이미지
     public Image Logo;  // 로고
+    public GameObject WakeUp;
     public event EventHandler OnPlayerRestarted;
+
+    void Start(){
+        Player.SetActive(false);
+    }
 
     public void PlayerDie()  // 장애물 충돌 시
     {
@@ -120,11 +125,16 @@ public class GameManager : MonoBehaviour
 
     IEnumerator AudioFade(AudioSource Out, AudioSource In){
         yield return new WaitForSeconds(1f);
+        WakeUp.GetComponent<Animator>().Play("WakeUp");
         In.Play();
         for(int i = 0; i<20; i++){
             yield return new WaitForSeconds(0.1f);
             In.volume += 0.05f;
             Out.volume -= 0.05f;
+            if(i == 13){
+                Destroy(WakeUp);
+                Player.SetActive(true);
+            }
         }
         Out.Stop();
         Logo.gameObject.SetActive(false);
