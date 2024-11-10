@@ -23,6 +23,7 @@ public class LostMemory : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.gameObject.tag == "Player")
         {
+            GetComponent<AudioSource>().Play();
             GameManager.Instance.memoryFind();
             Destroy(gameObject, 2f);
             Destroy(other.gameObject.GetComponent<Player>());
