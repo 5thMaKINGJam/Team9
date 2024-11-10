@@ -86,6 +86,8 @@ public class PlayerSoundEffects : MonoBehaviour
             isGrounded = false;
         }
     }
+
+    // 점프 소리를 끝까지 재생하는 코루틴
     private IEnumerator PlayJumpSound()
     {
         isJumping = true;
@@ -97,5 +99,7 @@ public class PlayerSoundEffects : MonoBehaviour
         audioSource.clip = footsteps; // 발자국 소리 클립으로 복원
     }
 }
+
+
 
 
