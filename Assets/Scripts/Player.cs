@@ -34,6 +34,7 @@ public class Player : MonoBehaviour
             movement.x = 1;
             bodySpriteRenderer.flipX = false;
             animator.SetBool("isMoving", true);
+
         }
         else if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
