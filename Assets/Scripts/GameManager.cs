@@ -25,12 +25,12 @@ public class GameManager : MonoBehaviour
     public GameObject[] memoryObjects;  // 기억 오브젝트 (UI)
     private int memoryFinded = 0;  // 찾은 기억 개수
     public bool isGameStarted = false;  // 게임 시작 여부
-    public int Stage = 1; // 스테이지
+    public int Stage = 0; // 스테이지
     public GameObject[] DistantViews;
 
     public Image FadeImg;  // 페이드인아웃 이미지
     public Image[] MemoryImg;  // 기억 돌아오는 이미지
-
+    public Image Logo;  // 로고
     public event EventHandler OnPlayerRestarted;
 
     public void PlayerDie()  // 장애물 충돌 시
@@ -63,6 +63,7 @@ public class GameManager : MonoBehaviour
             StartCoroutine(FadeOut(MemoryImg[memoryFinded-1], 132f));
 
             memoryObjects[0].SetActive(true);
+            Stage = 1;
         }
         else if(memoryFinded == 2) {
             FadeIn(FadeImg);
@@ -108,5 +109,24 @@ public class GameManager : MonoBehaviour
             Bridge.transform.GetChild(i).GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
             Destroy(Bridge.transform.GetChild(i).gameObject, 1f);
         }
+    }
+
+    public void GameStart(){
+        StartCoroutine(AudioFade(
+        GameObject.Find("Sun").GetComponent<AudioSource>(),
+        GameObject.Find("Main Camera").GetComponent<AudioSource>()));
+        Logo.CrossFadeAlpha(0f, 2f, false);
+    }
+
+    IEnumerator AudioFade(AudioSource Out, AudioSource In){
+        yield return new WaitForSeconds(1f);
+        In.Play();
+        for(int i = 0; i<20; i++){
+            yield return new WaitForSeconds(0.1f);
+            In.volume += 0.05f;
+            Out.volume -= 0.05f;
+        }
+        Out.Stop();
+        Logo.gameObject.SetActive(false);
     }
 }
