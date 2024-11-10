@@ -23,22 +23,35 @@ public class PlayerSoundEffects : MonoBehaviour
 
     void Update()
     {
-        // 이동 중인지 감지 (수평 및 수직 입력 모두 체크)
-        if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+        //// 이동 중인지 감지 (수평 및 수직 입력 모두 체크)
+        //if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+        //{
+        //    isWalking = true;
+        //}
+        //else
+        //{
+        //    isWalking = false;
+        //}
+
+        // 걷는 상태일 때 일정 간격으로 발소리 재생
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Walk"))
         {
-            isWalking = true;
+            if (!GetComponent<AudioSource>().isPlaying)
+                GetComponent<AudioSource>().Play();
         }
         else
         {
-            isWalking = false;
+            GetComponent<AudioSource>().Stop();
         }
 
-        // 걷는 상태이고 바닥에 있을 때만 발자국 소리 재생
-        if (isWalking && isGrounded && !isJumping)
+        // 걷는 상태일 때 일정 간격으로 발소리 재생
+        if (isWalking && isGrounded())
         {
-            if (!audioSource.isPlaying)
+            stepTimer += Time.deltaTime;
+            if (stepTimer >= stepDelay)
             {
-                audioSource.Play(); // 걷기 소리 재생 시작
+                audioSource.PlayOneShot(footsteps);
+                stepTimer = 0f;
             }
         }
         else
