@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerSoundEffects : MonoBehaviour
@@ -16,66 +14,59 @@ public class PlayerSoundEffects : MonoBehaviour
 
     void Start()
     {
-        // 발자국 소리 루프 설정
+        // 발자국 소리를 루프 설정
         audioSource.clip = footsteps;
         audioSource.loop = true;
     }
 
     void Update()
     {
-        //// 이동 중인지 감지 (수평 및 수직 입력 모두 체크)
-        //if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
-        //{
-        //    isWalking = true;
-        //}
-        //else
-        //{
-        //    isWalking = false;
-        //}
-
-        // 걷는 상태일 때 일정 간격으로 발소리 재생
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Walk"))
+        // 이동 중인지 감지
+        if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
         {
-            if (!GetComponent<AudioSource>().isPlaying)
-                GetComponent<AudioSource>().Play();
+            isWalking = true;
         }
         else
         {
-            GetComponent<AudioSource>().Stop();
+            isWalking = false;
         }
 
-        // 걷는 상태일 때 일정 간격으로 발소리 재생
-        if (isWalking && isGrounded())
+        // 걷는 상태에서 발자국 소리를 루프 재생
+        if (isWalking && isGrounded && !isJumping)
         {
-            stepTimer += Time.deltaTime;
-            if (stepTimer >= stepDelay)
+            if (!audioSource.isPlaying)
             {
-                audioSource.PlayOneShot(footsteps);
-                stepTimer = 0f;
+                audioSource.Play(); // 발자국 소리 루프 재생 시작
             }
         }
         else
         {
             if (audioSource.isPlaying)
             {
-                audioSource.Stop(); // 걷기 소리 멈춤
+                audioSource.Pause(); // 걷지 않을 때 소리 일시 중지
             }
         }
 
         // 점프 입력 감지 및 점프 소리 재생
         if (Input.GetButtonDown("Jump") && isGrounded && !isJumping)
         {
-            StartCoroutine(PlayJumpSound()); // 점프 소리 코루틴 호출
+            isJumping = true;
+            isGrounded = false;
+            audioSource.Pause(); // 점프 시 발자국 소리 일시 중지
+            audioSource.PlayOneShot(jump); // 점프 소리 재생
         }
     }
 
-    // 바닥에 닿았는지 확인
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
             isJumping = false;
+            if (isWalking)
+            {
+                audioSource.UnPause(); // 착지 시 발자국 소리 재개
+            }
         }
     }
 
@@ -84,21 +75,13 @@ public class PlayerSoundEffects : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = false;
+            audioSource.Pause(); // 공중에 있을 때 발자국 소리 일시 중지
         }
     }
-
-    // 점프 소리를 끝까지 재생하는 코루틴
-    private IEnumerator PlayJumpSound()
-    {
-        isJumping = true;
-        audioSource.Stop(); // 기존 소리 멈추기
-        audioSource.clip = jump;
-        audioSource.Play(); // 점프 소리 재생
-        yield return new WaitForSeconds(jump.length); // 점프 소리가 끝날 때까지 대기
-        isJumping = false;
-        audioSource.clip = footsteps; // 발자국 소리 클립으로 복원
-    }
 }
+
+
+
 
 
 
