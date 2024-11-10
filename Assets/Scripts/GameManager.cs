@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
 
     public float cameraLimitY = 10.3f;  // 카메라 y값 상한
     public float cameraLimitpreY = 0f;  // 카메라 y값 하한
-    public float cameraLimitX = 1200f;  // 카메라 x값 상한
+    public float cameraLimitX = 0f;  // 카메라 x값 상한
     public float cameraLimitpreX = 0f;  // 카메라 x값 하한
     public GameObject[] memoryObjects;  // 기억 오브젝트 (UI)
     private int memoryFinded = 0;  // 찾은 기억 개수
@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     public Image[] MemoryImg;  // 기억 돌아오는 이미지
     public Image Logo;  // 로고
     public GameObject WakeUp;
+    public Image[] endings;
     public event EventHandler OnPlayerRestarted;
 
     void Start(){
@@ -40,6 +41,7 @@ public class GameManager : MonoBehaviour
 
     public void PlayerDie()  // 장애물 충돌 시
     {
+        GetComponent<AudioSource>().Play();
         Player.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
         FadeIn(FadeImg);
         
@@ -64,23 +66,26 @@ public class GameManager : MonoBehaviour
         memoryFinded++;
         if(memoryFinded == 1) {
             FadeIn(FadeImg);
-            StartCoroutine(nextFadeIn(MemoryImg[memoryFinded-1]));
-            StartCoroutine(FadeOut(MemoryImg[memoryFinded-1], 132f));
+            StartCoroutine(nextFadeIn(MemoryImg[0]));
+            StartCoroutine(FadeOut(MemoryImg[0], 132f));
 
             memoryObjects[0].SetActive(true);
             Stage = 1;
         }
         else if(memoryFinded == 2) {
             FadeIn(FadeImg);
-            StartCoroutine(nextFadeIn(MemoryImg[memoryFinded-1]));
-            StartCoroutine(FadeOut(MemoryImg[memoryFinded-1], 285.7f));  //todo
+            StartCoroutine(nextFadeIn(MemoryImg[1]));
+            StartCoroutine(FadeOut(MemoryImg[1], 285.7f));
+            StartCoroutine(nextFadeIn2(MemoryImg[2], 285.7f));
+            StartCoroutine(nextFadeIn3(MemoryImg[3], 285.7f));
 
             memoryObjects[1].SetActive(true);
         }
         else if(memoryFinded == 3) {
             FadeIn(FadeImg);
-            StartCoroutine(nextFadeIn(MemoryImg[memoryFinded-1]));
-            StartCoroutine(FadeOut(MemoryImg[memoryFinded-1], 285.7f));  //todo
+            StartCoroutine(nextFadeIn(MemoryImg[4]));
+            StartCoroutine(FadeOut(MemoryImg[4], 285.7f));
+            StartCoroutine(nextFadeIn2(MemoryImg[5], 285.7f));
 
             memoryObjects[2].SetActive(true);
         }
@@ -95,12 +100,24 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.6f);
         FadeIn(img);
     }
+    IEnumerator nextFadeIn2(Image img, float c){
+        yield return new WaitForSeconds(4f);
+        FadeIn(img);
+        StartCoroutine(FadeOut(img, c));
+    }
+    IEnumerator nextFadeIn3(Image img, float c){
+        yield return new WaitForSeconds(4f);
+        FadeIn(img);
+        StartCoroutine(FadeOut(img, c));
+    }
     IEnumerator FadeOut(Image img, float cameraLimit){
         yield return new WaitForSeconds(5f);
         FadeImg.CrossFadeAlpha(0f, 0.6f, false);
         img.CrossFadeAlpha(0f, 0.6f, false);
         img.gameObject.SetActive(false);
         cameraLimitX = cameraLimit;
+
+        if(img==MemoryImg[5]) Invoke("Ending", 2.1f);
     }
 
     public void BreakPlease(GameObject Bridge){
@@ -123,20 +140,40 @@ public class GameManager : MonoBehaviour
         Logo.CrossFadeAlpha(0f, 2f, false);
     }
 
-    IEnumerator AudioFade(AudioSource Out, AudioSource In){
+    public IEnumerator AudioFade(AudioSource Out, AudioSource In){
         yield return new WaitForSeconds(1f);
-        WakeUp.GetComponent<Animator>().Play("WakeUp");
+        if(WakeUp != null) WakeUp.GetComponent<Animator>().Play("WakeUp");
         In.Play();
         for(int i = 0; i<20; i++){
             yield return new WaitForSeconds(0.1f);
             In.volume += 0.05f;
             Out.volume -= 0.05f;
             if(i == 13){
-                Destroy(WakeUp);
+                if(WakeUp!=null) Destroy(WakeUp);
                 Player.SetActive(true);
             }
         }
         Out.Stop();
         Logo.gameObject.SetActive(false);
+    }
+
+    public void Ending()
+    {
+        FadeIn(FadeImg);
+        nextFadeIn(endings[0]);
+        FadeOut(endings[0], cameraLimitX);
+
+        endings[1].gameObject.SetActive(true);
+        endings[2].gameObject.SetActive(true);
+        endings[3].gameObject.SetActive(true);
+        endings[4].gameObject.SetActive(true);
+
+        StartCoroutine(EndingFade(1));
+    }
+    IEnumerator EndingFade(int i){
+        yield return new WaitForSeconds(1f);
+        endings[i].CrossFadeAlpha(0f, 0.5f, false);
+        if(endings.Length - 2 >= i + 1)
+            StartCoroutine(EndingFade(i+1));
     }
 }

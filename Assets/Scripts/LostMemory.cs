@@ -24,13 +24,14 @@ public class LostMemory : MonoBehaviour
         if(other.gameObject.tag == "Player")
         {
             GetComponent<AudioSource>().Play();
+            if(MapLimit != null) Destroy(MapLimit);
             GameManager.Instance.memoryFind();
             Destroy(gameObject, 2f);
             Destroy(other.gameObject.GetComponent<Player>());
             Destroy(other.gameObject.transform.GetChild(0).GetComponent<Animator>());
             
             GameManager.Instance.PlayerDie();
-            if(MapLimit != null) Destroy(MapLimit);
+            
             Destroy(this);
         }
     }
