@@ -385,7 +385,6 @@ GameObject:
   m_Component:
   - component: {fileID: 59431612}
   - component: {fileID: 59431611}
-  - component: {fileID: 59431614}
   - component: {fileID: 59431613}
   m_Layer: 0
   m_Name: Map2_ground
@@ -502,27 +501,6 @@ PolygonCollider2D:
       - {x: 39.81656, y: -1.4802763}
       - {x: 37.66916, y: -0.25429296}
       - {x: 35.080193, y: 0.37241924}
---- !u!50 &59431614
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 59431610}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!1 &64417502
 GameObject:
   m_ObjectHideFlags: 0
@@ -533,7 +511,6 @@ GameObject:
   m_Component:
   - component: {fileID: 64417504}
   - component: {fileID: 64417503}
-  - component: {fileID: 64417506}
   - component: {fileID: 64417507}
   - component: {fileID: 64417508}
   m_Layer: 0
@@ -610,27 +587,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 30
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &64417506
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 64417502}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!60 &64417507
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -2198,7 +2154,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 695834082}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 22.7, y: 5, z: 0}
+  m_LocalPosition: {x: 28.3, y: 5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3240,7 +3196,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2402098539458314228, guid: d5089434af3fac2449c1fa2f768ae3ae, type: 3}
       propertyPath: jumpForce
-      value: 12
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2402098539458314228, guid: d5089434af3fac2449c1fa2f768ae3ae, type: 3}
       propertyPath: pushStrength
@@ -6279,7 +6235,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8316018051410122054, guid: 24db9a9e2ff12af42b3e27d58b0f66a7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.16
+      value: 6.51
       objectReference: {fileID: 0}
     - target: {fileID: 8316018051410122054, guid: 24db9a9e2ff12af42b3e27d58b0f66a7, type: 3}
       propertyPath: m_LocalPosition.y

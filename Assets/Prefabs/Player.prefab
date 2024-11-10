@@ -456,7 +456,7 @@ MonoBehaviour:
   animator: {fileID: 4996678481646391287}
   bodySpriteRenderer: {fileID: 4996678481646391284}
   moveSpeed: 3
-  jumpForce: 9
+  jumpForce: 10
   objectLayer:
     serializedVersion: 2
     m_Bits: 128

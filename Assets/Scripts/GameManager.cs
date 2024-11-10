@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     public GameObject[] memoryObjects;  // 기억 오브젝트 (UI)
     private int memoryFinded = 0;  // 찾은 기억 개수
     public bool isGameStarted = false;  // 게임 시작 여부
-    public int Stage = 0; // 스테이지
+    public int Stage = 1; // 스테이지
     public GameObject[] DistantViews;
 
     public Image FadeImg;  // 페이드인아웃 이미지
@@ -117,7 +117,7 @@ public class GameManager : MonoBehaviour
         img.gameObject.SetActive(false);
         cameraLimitX = cameraLimit;
 
-        if(img==MemoryImg[5]) Invoke("Ending", 2.1f);
+        if(img==MemoryImg[5]) Invoke("Ending", 1.2f);
     }
 
     public void BreakPlease(GameObject Bridge){
@@ -167,13 +167,18 @@ public class GameManager : MonoBehaviour
         endings[2].gameObject.SetActive(true);
         endings[3].gameObject.SetActive(true);
         endings[4].gameObject.SetActive(true);
+        endings[5].gameObject.SetActive(true);
 
-        StartCoroutine(EndingFade(1));
+        StartCoroutine(EndingFade());
     }
-    IEnumerator EndingFade(int i){
+    IEnumerator EndingFade(){
         yield return new WaitForSeconds(1f);
-        endings[i].CrossFadeAlpha(0f, 0.5f, false);
-        if(endings.Length - 2 >= i + 1)
-            StartCoroutine(EndingFade(i+1));
+        endings[1].CrossFadeAlpha(0f, 0.5f, false);
+        yield return new WaitForSeconds(1f);
+        endings[2].CrossFadeAlpha(0f, 0.5f, false);
+        yield return new WaitForSeconds(1f);
+        endings[3].CrossFadeAlpha(0f, 0.5f, false);
+        yield return new WaitForSeconds(1f);
+        endings[4].CrossFadeAlpha(0f, 0.5f, false);
     }
 }

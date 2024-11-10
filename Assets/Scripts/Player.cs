@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     public Animator animator;
     public SpriteRenderer bodySpriteRenderer;
     public float moveSpeed = 5f; // 이동 속도
-    public float jumpForce = 10f; // 점프 힘
+    public float jumpForce = 12f; // 점프 힘
     private Vector2 movement; // 이동 벡터
     private bool isGrounded; // 땅에 닿았는지 여부
     public LayerMask objectLayer; // 상호작용 가능한 물체 레이어
