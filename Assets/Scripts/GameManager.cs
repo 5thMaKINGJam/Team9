@@ -106,7 +106,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(FadeOut(img, c));
     }
     IEnumerator nextFadeIn3(Image img, float c){
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(8f);
         FadeIn(img);
         StartCoroutine(FadeOut(img, c));
     }
