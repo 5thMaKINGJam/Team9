@@ -8,13 +8,19 @@ public class PlayerSoundEffects : MonoBehaviour
     public AudioClip footsteps;
     public AudioClip jump;
     public float stepDelay = 0.5f;
-    public float groundCheckDistance = 0.2f;
 
     private bool isWalking = false;
     private bool isJumping = false;
+    private bool isGrounded = false;
     private float stepTimer = 0f;
 
-    // Update is called once per frame
+    void Start()
+    {
+        // 발자국 소리 루프 설정
+        audioSource.clip = footsteps;
+        audioSource.loop = true;
+    }
+
     void Update()
     {
         // 이동 중인지 감지 (수평 및 수직 입력 모두 체크)
@@ -27,36 +33,56 @@ public class PlayerSoundEffects : MonoBehaviour
             isWalking = false;
         }
 
-        // 걷는 상태일 때 일정 간격으로 발소리 재생
-        if (isWalking && isGrounded())
+        // 걷는 상태이고 바닥에 있을 때만 발자국 소리 재생
+        if (isWalking && isGrounded && !isJumping)
         {
-            stepTimer += Time.deltaTime;
-            if (stepTimer >= stepDelay)
+            if (!audioSource.isPlaying)
             {
-                audioSource.PlayOneShot(footsteps);
-                stepTimer = 0f;
+                audioSource.Play(); // 걷기 소리 재생 시작
             }
         }
-        
-
-        // 점프 입력 감지 및 점프 소리 재생
-        if (Input.GetButtonDown("Jump") && !isJumping) // 점프 키를 누른 순간 감지
+        else
         {
-            isJumping = true;
-            audioSource.PlayOneShot(jump); // 점프 소리 재생
+            if (audioSource.isPlaying)
+            {
+                audioSource.Stop(); // 걷기 소리 멈춤
+            }
         }
 
-        // 착지 감지 (점프 후 다시 발이 닿았을 때)
-        if (isJumping && isGrounded())
+        // 점프 입력 감지 및 점프 소리 재생
+        if (Input.GetButtonDown("Jump") && isGrounded && !isJumping)
         {
+            StartCoroutine(PlayJumpSound()); // 점프 소리 코루틴 호출
+        }
+    }
+
+    // 바닥에 닿았는지 확인
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
             isJumping = false;
         }
     }
 
-    bool isGrounded()
+    private void OnCollisionExit2D(Collision2D collision)
     {
-        // 바닥과의 거리 설정하여 바닥에 닿았는지 체크
-        return Physics.Raycast(transform.position, Vector3.down, groundCheckDistance);
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = false;
+        }
+    }
+    private IEnumerator PlayJumpSound()
+    {
+        isJumping = true;
+        audioSource.Stop(); // 기존 소리 멈추기
+        audioSource.clip = jump;
+        audioSource.Play(); // 점프 소리 재생
+        yield return new WaitForSeconds(jump.length); // 점프 소리가 끝날 때까지 대기
+        isJumping = false;
+        audioSource.clip = footsteps; // 발자국 소리 클립으로 복원
     }
 }
+
 
